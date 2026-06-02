@@ -6,7 +6,6 @@ function Home() {
     <div className={styles.placeholder}>
       <h1>Boroughs</h1>
       <p>Find your next round.</p>
-      <p className={styles.muted}>Map view coming Day 4.</p>
     </div>
   );
 }
