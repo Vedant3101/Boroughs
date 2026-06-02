@@ -40,12 +40,3 @@ cp .env.example .env           # then fill in values
 npm run dev
 ```
 
-## Roadmap
-
-- [x] Day 1 — Project scaffolding
-- [ ] Day 2 — Data models and seed data
-- [ ] Day 3 — Auth and bar API endpoints
-- [ ] Day 4 — Frontend map and filters
-- [ ] Day 5 — Visits and ratings
-- [ ] Day 6 — Pub crawl generator and routing
-- [ ] Day 7 — Polish, tests, deployment
