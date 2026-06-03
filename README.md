@@ -1,6 +1,6 @@
 # Boroughs
 
-Find your next round. Interactive map of NYC bars with price filters, visit tracking, ratings, and budget-aware pub crawl routing.
+Find your next round. Interactive map of Manhattan bars with price filters, visit tracking, ratings, and budget-aware pub crawl routing. (Other boroughs coming later.)
 
 ## Stack
 
