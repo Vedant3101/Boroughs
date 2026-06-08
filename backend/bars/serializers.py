@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Bar
+from .models import Bar, Rating, Visit
 
 
 class BarListSerializer(serializers.ModelSerializer):
@@ -47,3 +47,33 @@ class BarDetailSerializer(BarListSerializer):
             "created_at",
             "updated_at",
         )
+
+
+class VisitSerializer(serializers.ModelSerializer):
+    """A user marking they visited a bar. Multiple visits per (user, bar) are allowed."""
+
+    bar_name = serializers.CharField(source="bar.name", read_only=True)
+
+    class Meta:
+        model = Visit
+        fields = ("id", "bar", "bar_name", "visited_at", "notes", "created_at")
+        read_only_fields = ("id", "created_at")
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    """A user's 1-5 rating of a bar. One per (user, bar) — POST upserts."""
+
+    bar_name = serializers.CharField(source="bar.name", read_only=True)
+
+    class Meta:
+        model = Rating
+        fields = (
+            "id",
+            "bar",
+            "bar_name",
+            "score",
+            "comment",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "created_at", "updated_at")

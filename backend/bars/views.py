@@ -3,10 +3,16 @@ from __future__ import annotations
 
 from django.db.models import Avg, Count, F, FloatField, Q, Value
 from django.db.models.functions import ACos, Cast, Cos, Radians, Sin
-from rest_framework import generics
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
 
-from .models import Bar
-from .serializers import BarDetailSerializer, BarListSerializer
+from .models import Bar, Rating, Visit
+from .serializers import (
+    BarDetailSerializer,
+    BarListSerializer,
+    RatingSerializer,
+    VisitSerializer,
+)
 
 EARTH_RADIUS_M = 6_371_000
 
@@ -83,6 +89,86 @@ class BarDetailView(generics.RetrieveAPIView):
             num_user_ratings=Count("ratings", distinct=True),
             num_visits=Count("visits", distinct=True),
         )
+
+
+# --- Visits ---------------------------------------------------------------
+
+
+class VisitListCreateView(generics.ListCreateAPIView):
+    """GET /api/visits/ — current user's visits. POST creates a new visit."""
+
+    serializer_class = VisitSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return (
+            Visit.objects.filter(user=self.request.user)
+            .select_related("bar")
+            .order_by("-visited_at")
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class VisitDetailView(generics.RetrieveDestroyAPIView):
+    """GET / DELETE a single visit (only the owner can touch it)."""
+
+    serializer_class = VisitSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Visit.objects.filter(user=self.request.user)
+
+
+# --- Ratings --------------------------------------------------------------
+
+
+class RatingListCreateView(generics.ListCreateAPIView):
+    """
+    GET /api/ratings/ — current user's ratings.
+    POST upserts: if the user already rated this bar, the rating is updated.
+    Returns 201 on create, 200 on update.
+    """
+
+    serializer_class = RatingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return (
+            Rating.objects.filter(user=self.request.user)
+            .select_related("bar")
+            .order_by("-updated_at")
+        )
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        bar = serializer.validated_data["bar"]
+        rating, was_created = Rating.objects.update_or_create(
+            user=request.user,
+            bar=bar,
+            defaults={
+                "score": serializer.validated_data["score"],
+                "comment": serializer.validated_data.get("comment", ""),
+            },
+        )
+        out = self.get_serializer(rating)
+        return Response(
+            out.data,
+            status=status.HTTP_201_CREATED if was_created else status.HTTP_200_OK,
+        )
+
+
+class RatingDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """GET / PATCH / DELETE a single rating (owner only)."""
+
+    serializer_class = RatingSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ["get", "patch", "delete", "head", "options"]
+
+    def get_queryset(self):
+        return Rating.objects.filter(user=self.request.user)
 
 
 # --- helpers ---------------------------------------------------------------
