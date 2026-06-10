@@ -59,6 +59,13 @@ class VisitSerializer(serializers.ModelSerializer):
         fields = ("id", "bar", "bar_name", "visited_at", "notes", "created_at")
         read_only_fields = ("id", "created_at")
 
+    def validate_visited_at(self, value):
+        from django.utils import timezone
+
+        if value > timezone.now():
+            raise serializers.ValidationError("Visit date cannot be in the future.")
+        return value
+
 
 class RatingSerializer(serializers.ModelSerializer):
     """A user's 1-5 rating of a bar. One per (user, bar) — POST upserts."""
