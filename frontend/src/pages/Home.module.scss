@@ -1,0 +1,18 @@
+@use "@/styles/variables" as v;
+
+.placeholder {
+  margin: auto;
+  text-align: center;
+  padding: v.$space-xl;
+
+  h1 {
+    font-size: 3rem;
+    margin: 0 0 v.$space-sm;
+    color: v.$accent;
+  }
+
+  p {
+    margin: v.$space-xs 0;
+    color: v.$text-muted;
+  }
+}

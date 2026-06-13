@@ -1,1 +1,1 @@
-"""Pub crawl + routing views — implemented on Day 6."""
+"""Pub crawl + routing views."""

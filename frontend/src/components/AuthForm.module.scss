@@ -1,0 +1,91 @@
+@use "@/styles/variables" as v;
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: v.$space-xl;
+}
+
+.card {
+  background: v.$surface;
+  border: 1px solid v.$border;
+  border-radius: v.$radius-lg;
+  padding: v.$space-xl;
+  width: 100%;
+  max-width: 420px;
+}
+
+.title {
+  margin: 0 0 v.$space-sm;
+  font-size: 1.5rem;
+  color: v.$accent;
+}
+
+.subtitle {
+  margin: 0 0 v.$space-lg;
+  color: v.$text-muted;
+  font-size: 0.9rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-xs;
+  margin-bottom: v.$space-md;
+}
+
+.label {
+  font-size: 0.85rem;
+  color: v.$text-muted;
+}
+
+.input {
+  background: v.$bg;
+  border: 1px solid v.$border;
+  border-radius: v.$radius-sm;
+  color: v.$text;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+
+  &:focus {
+    outline: none;
+    border-color: v.$accent;
+  }
+}
+
+.submit {
+  width: 100%;
+  background: v.$accent;
+  color: #0f0c08;
+  border: none;
+  border-radius: v.$radius-sm;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: v.$space-sm;
+
+  &:hover {
+    background: v.$accent-hover;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.error {
+  color: v.$danger;
+  font-size: 0.85rem;
+  margin: v.$space-sm 0;
+  white-space: pre-wrap;
+}
+
+.footer {
+  text-align: center;
+  margin-top: v.$space-md;
+  color: v.$text-muted;
+  font-size: 0.85rem;
+}

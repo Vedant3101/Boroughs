@@ -1,0 +1,24 @@
+@use "@/styles/variables" as v;
+
+.wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: v.$space-xl;
+}
+
+.title {
+  font-size: 2rem;
+  color: v.$accent;
+  margin: 0 0 v.$space-xs;
+}
+
+.meta {
+  color: v.$text-muted;
+  margin: v.$space-xs 0;
+}
+
+.muted {
+  color: v.$text-muted;
+  font-style: italic;
+  margin-top: v.$space-lg;
+}
