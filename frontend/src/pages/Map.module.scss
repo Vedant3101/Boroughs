@@ -1,0 +1,32 @@
+@use "@/styles/variables" as v;
+
+.container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px); // 64px ≈ nav height
+}
+
+.statusBar {
+  position: absolute;
+  top: v.$space-md;
+  left: v.$space-md;
+  z-index: 10;
+  background: v.$surface;
+  color: v.$text;
+  padding: v.$space-xs v.$space-md;
+  border-radius: v.$radius-md;
+  border: 1px solid v.$border;
+  font-size: 0.8rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.error {
+  color: v.$danger;
+}
+
+.message {
+  margin: auto;
+  padding: v.$space-xl;
+  text-align: center;
+  color: v.$text-muted;
+}

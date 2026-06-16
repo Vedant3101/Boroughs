@@ -1,0 +1,50 @@
+// InfoWindow content renders on a white background (Google Maps default)
+// so we use dark text here, not the app palette.
+
+.popup {
+  max-width: 240px;
+  font-family: inherit;
+  color: #1a1d24;
+}
+
+.name {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+
+.price {
+  color: #2c7a3a;
+  font-weight: 600;
+}
+
+.rating {
+  color: #f5a623;
+  font-weight: 600;
+}
+
+.address {
+  margin: 4px 0;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.borough {
+  display: inline-block;
+  padding: 2px 6px;
+  background: #f0e4d0;
+  color: #8a5a1a;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
