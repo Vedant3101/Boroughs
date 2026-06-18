@@ -1,0 +1,133 @@
+@use "@/styles/variables" as v;
+
+.wrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: v.$space-xl v.$space-lg;
+  width: 100%;
+}
+
+.message {
+  margin: auto;
+  padding: v.$space-xl;
+  text-align: center;
+  color: v.$text-muted;
+}
+
+.backLink {
+  display: inline-block;
+  color: v.$text-muted;
+  text-decoration: none;
+  font-size: 0.85rem;
+  margin-bottom: v.$space-md;
+
+  &:hover {
+    color: v.$accent;
+  }
+}
+
+.header {
+  margin-bottom: v.$space-xl;
+}
+
+.name {
+  margin: 0 0 v.$space-sm;
+  font-size: 2rem;
+  color: v.$accent;
+  line-height: 1.1;
+}
+
+.metaRow {
+  display: flex;
+  gap: v.$space-sm;
+  align-items: center;
+}
+
+.chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: v.$radius-sm;
+  background: v.$bg;
+  border: 1px solid v.$border;
+  color: v.$text-muted;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.priceChip {
+  color: v.$accent;
+  border-color: v.$accent;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: v.$space-md;
+  margin-bottom: v.$space-xl;
+}
+
+.stat {
+  background: v.$surface;
+  border: 1px solid v.$border;
+  border-radius: v.$radius-md;
+  padding: v.$space-md;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-xs;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  color: v.$text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: v.$text;
+}
+
+.statSub {
+  font-size: 0.75rem;
+  color: v.$text-muted;
+}
+
+.infoSection {
+  background: v.$surface;
+  border: 1px solid v.$border;
+  border-radius: v.$radius-md;
+  padding: v.$space-lg;
+  margin-bottom: v.$space-md;
+}
+
+.sectionTitle {
+  margin: 0 0 v.$space-md;
+  font-size: 0.85rem;
+  color: v.$text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.infoRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: v.$space-md;
+  padding: v.$space-xs 0;
+  font-size: 0.9rem;
+  align-items: baseline;
+}
+
+.infoLabel {
+  color: v.$text-muted;
+  font-size: 0.8rem;
+}
+
+.muted {
+  color: v.$text-muted;
+  font-style: italic;
+  margin: 0;
+}

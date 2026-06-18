@@ -1,0 +1,106 @@
+@use "@/styles/variables" as v;
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: v.$surface;
+  border-right: 1px solid v.$border;
+  padding: v.$space-lg;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-lg;
+  overflow-y: auto;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-xs;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: v.$text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.input {
+  background: v.$bg;
+  border: 1px solid v.$border;
+  border-radius: v.$radius-sm;
+  color: v.$text;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.9rem;
+
+  &:focus {
+    outline: none;
+    border-color: v.$accent;
+  }
+}
+
+.priceRow {
+  display: flex;
+  gap: v.$space-xs;
+}
+
+.priceButton {
+  flex: 1;
+  background: v.$bg;
+  border: 1px solid v.$border;
+  color: v.$text-muted;
+  border-radius: v.$radius-sm;
+  padding: 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+
+  &:hover {
+    color: v.$text;
+    border-color: v.$accent;
+  }
+}
+
+.priceActive {
+  color: v.$accent;
+  border-color: v.$accent;
+}
+
+.priceSelected {
+  background: v.$accent;
+  color: #0f0c08;
+  border-color: v.$accent;
+}
+
+.hint {
+  margin: v.$space-xs 0 0;
+  font-size: 0.75rem;
+  color: v.$text-muted;
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: v.$space-md;
+  border-top: 1px solid v.$border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.count {
+  color: v.$text-muted;
+}
+
+.reset {
+  background: none;
+  border: none;
+  color: v.$danger;
+  font-size: 0.8rem;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

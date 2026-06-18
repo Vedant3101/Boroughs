@@ -2,6 +2,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import MapPage from "@/pages/Map";
+import BarDetail from "@/pages/BarDetail";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Profile from "@/pages/Profile";
@@ -47,6 +48,7 @@ export default function App() {
       <main className={styles.main}>
         <Routes>
           <Route path="/" element={<MapPage />} />
+          <Route path="/bars/:id" element={<BarDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route

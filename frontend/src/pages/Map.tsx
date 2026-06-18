@@ -8,17 +8,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchBars, type Bar } from "@/api/bars";
 import { haversineMeters } from "@/lib/geo";
 import { BarInfoCard } from "@/components/BarInfoCard";
+import {
+  FilterSidebar,
+  EMPTY_FILTERS,
+  type BarFilters,
+} from "@/components/FilterSidebar";
 import styles from "./Map.module.scss";
 
 const NYC_CENTER = { lat: 40.7549, lng: -73.984 }; // Midtown-ish
 const DEFAULT_ZOOM = 13;
-const MAX_RADIUS_M = 8_000; // cap to keep response sizes sane
+const MAX_RADIUS_M = 8_000;
 const MAX_RESULTS = 200;
 const REFETCH_DEBOUNCE_MS = 400;
 
 const MAP_CONTAINER_STYLE = { width: "100%", height: "100%" };
 
-// Slight dark-mode tweaks so the map matches the app palette
 const MAP_OPTIONS: google.maps.MapOptions = {
   disableDefaultUI: false,
   streetViewControl: false,
@@ -35,11 +39,18 @@ export default function MapPage() {
 
   const mapRef = useRef<google.maps.Map | null>(null);
   const debounceRef = useRef<number | null>(null);
+  const filtersRef = useRef<BarFilters>(EMPTY_FILTERS);
 
   const [bars, setBars] = useState<Bar[]>([]);
   const [selected, setSelected] = useState<Bar | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState<BarFilters>(EMPTY_FILTERS);
+
+  // Keep ref in sync so refetchBars (used in event handlers) sees current filters
+  useEffect(() => {
+    filtersRef.current = filters;
+  }, [filters]);
 
   const refetchBars = useCallback(async () => {
     const map = mapRef.current;
@@ -55,6 +66,8 @@ export default function MapPage() {
       MAX_RADIUS_M,
     );
 
+    const f = filtersRef.current;
+
     setLoading(true);
     setError(null);
     try {
@@ -63,6 +76,8 @@ export default function MapPage() {
         lng: center.lng(),
         radius,
         page_size: MAX_RESULTS,
+        search: f.search || undefined,
+        price_max: f.priceMax ?? undefined,
       });
       setBars(result.results);
     } catch (err) {
@@ -73,10 +88,17 @@ export default function MapPage() {
     }
   }, []);
 
-  const onIdle = useCallback(() => {
+  const scheduleRefetch = useCallback(() => {
     if (debounceRef.current) window.clearTimeout(debounceRef.current);
     debounceRef.current = window.setTimeout(refetchBars, REFETCH_DEBOUNCE_MS);
   }, [refetchBars]);
+
+  // Filter changes also trigger refetch (not just map moves)
+  useEffect(() => {
+    if (!isLoaded || !mapRef.current) return;
+    scheduleRefetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, isLoaded]);
 
   useEffect(() => {
     return () => {
@@ -97,58 +119,57 @@ export default function MapPage() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.statusBar}>
-        {loading ? (
-          <span>Loading bars…</span>
-        ) : error ? (
-          <span className={styles.error}>{error}</span>
-        ) : (
-          <span>
-            {bars.length} bar{bars.length === 1 ? "" : "s"} in view
-          </span>
-        )}
+    <div className={styles.layout}>
+      <FilterSidebar
+        value={filters}
+        onChange={setFilters}
+        resultCount={bars.length}
+        loading={loading}
+      />
+
+      <div className={styles.mapWrapper}>
+        {error && <div className={styles.errorBadge}>{error}</div>}
+
+        <GoogleMap
+          mapContainerStyle={MAP_CONTAINER_STYLE}
+          center={NYC_CENTER}
+          zoom={DEFAULT_ZOOM}
+          options={MAP_OPTIONS}
+          onLoad={(map) => {
+            mapRef.current = map;
+          }}
+          onUnmount={() => {
+            mapRef.current = null;
+          }}
+          onIdle={scheduleRefetch}
+          onClick={() => setSelected(null)}
+        >
+          {bars.map((bar) => (
+            <Marker
+              key={bar.id}
+              position={{
+                lat: parseFloat(bar.latitude),
+                lng: parseFloat(bar.longitude),
+              }}
+              title={bar.name}
+              onClick={() => setSelected(bar)}
+            />
+          ))}
+
+          {selected && (
+            <InfoWindow
+              position={{
+                lat: parseFloat(selected.latitude),
+                lng: parseFloat(selected.longitude),
+              }}
+              onCloseClick={() => setSelected(null)}
+              options={{ pixelOffset: new google.maps.Size(0, -34) }}
+            >
+              <BarInfoCard bar={selected} />
+            </InfoWindow>
+          )}
+        </GoogleMap>
       </div>
-
-      <GoogleMap
-        mapContainerStyle={MAP_CONTAINER_STYLE}
-        center={NYC_CENTER}
-        zoom={DEFAULT_ZOOM}
-        options={MAP_OPTIONS}
-        onLoad={(map) => {
-          mapRef.current = map;
-        }}
-        onUnmount={() => {
-          mapRef.current = null;
-        }}
-        onIdle={onIdle}
-        onClick={() => setSelected(null)}
-      >
-        {bars.map((bar) => (
-          <Marker
-            key={bar.id}
-            position={{
-              lat: parseFloat(bar.latitude),
-              lng: parseFloat(bar.longitude),
-            }}
-            title={bar.name}
-            onClick={() => setSelected(bar)}
-          />
-        ))}
-
-        {selected && (
-          <InfoWindow
-            position={{
-              lat: parseFloat(selected.latitude),
-              lng: parseFloat(selected.longitude),
-            }}
-            onCloseClick={() => setSelected(null)}
-            options={{ pixelOffset: new google.maps.Size(0, -34) }}
-          >
-            <BarInfoCard bar={selected} />
-          </InfoWindow>
-        )}
-      </GoogleMap>
     </div>
   );
 }

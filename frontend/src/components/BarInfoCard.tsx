@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Bar } from "@/api/bars";
 import styles from "./BarInfoCard.module.scss";
 
@@ -19,9 +20,9 @@ export function BarInfoCard({ bar }: { bar: Bar }) {
         )}
       </div>
       {bar.address && <p className={styles.address}>{bar.address}</p>}
-      {bar.borough_display && (
-        <span className={styles.borough}>{bar.borough_display}</span>
-      )}
+      <Link to={`/bars/${bar.id}`} className={styles.detailLink}>
+        View details →
+      </Link>
     </div>
   );
 }

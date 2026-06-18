@@ -1,27 +1,31 @@
 @use "@/styles/variables" as v;
 
-.container {
-  position: relative;
+.layout {
+  display: flex;
+  flex: 1;
   width: 100%;
-  height: calc(100vh - 64px); // 64px ≈ nav height
+  height: calc(100vh - 64px);
+  min-height: 0;
 }
 
-.statusBar {
+.mapWrapper {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}
+
+.errorBadge {
   position: absolute;
   top: v.$space-md;
   left: v.$space-md;
   z-index: 10;
   background: v.$surface;
-  color: v.$text;
+  color: v.$danger;
   padding: v.$space-xs v.$space-md;
   border-radius: v.$radius-md;
-  border: 1px solid v.$border;
-  font-size: 0.8rem;
+  border: 1px solid v.$danger;
+  font-size: 0.85rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-.error {
-  color: v.$danger;
 }
 
 .message {
