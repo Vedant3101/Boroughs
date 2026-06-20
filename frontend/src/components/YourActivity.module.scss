@@ -1,0 +1,143 @@
+@use "@/styles/variables" as v;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-lg;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-sm;
+}
+
+.blockHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blockLabel {
+  font-size: 0.75rem;
+  color: v.$text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.subtle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: v.$text-muted;
+}
+
+.muted {
+  color: v.$text-muted;
+  font-style: italic;
+}
+
+.error {
+  background: rgba(232, 90, 90, 0.1);
+  border: 1px solid v.$danger;
+  color: v.$danger;
+  padding: v.$space-sm v.$space-md;
+  border-radius: v.$radius-sm;
+  font-size: 0.85rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-xs;
+}
+
+.fieldLabel {
+  font-size: 0.8rem;
+  color: v.$text-muted;
+}
+
+.input,
+.textarea {
+  background: v.$bg;
+  border: 1px solid v.$border;
+  border-radius: v.$radius-sm;
+  color: v.$text;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: v.$accent;
+  }
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.submitBtn {
+  align-self: flex-start;
+  background: v.$accent;
+  color: #0f0c08;
+  border: none;
+  border-radius: v.$radius-sm;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  &:hover {
+    background: v.$accent-hover;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  color: v.$text-muted;
+  font-size: 0.75rem;
+  padding: 0;
+
+  &:hover {
+    color: v.$danger;
+  }
+}
+
+.visitList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: v.$space-xs;
+}
+
+.visitItem {
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  gap: v.$space-md;
+  align-items: baseline;
+  padding: v.$space-xs 0;
+  border-bottom: 1px solid v.$border;
+  font-size: 0.85rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.visitDate {
+  color: v.$text;
+  font-weight: 500;
+}
+
+.visitNotes {
+  color: v.$text-muted;
+  font-size: 0.8rem;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchBar, type Bar } from "@/api/bars";
+import { YourActivity } from "@/components/YourActivity";
 import styles from "./BarDetail.module.scss";
 
 interface BarDetail extends Bar {
@@ -132,9 +133,7 @@ export default function BarDetailPage() {
 
       <section className={styles.infoSection}>
         <h2 className={styles.sectionTitle}>Your activity</h2>
-        <p className={styles.muted}>
-          Mark visits and rate this bar — coming soon.
-        </p>
+        <YourActivity barId={bar.id} />
       </section>
     </div>
   );
